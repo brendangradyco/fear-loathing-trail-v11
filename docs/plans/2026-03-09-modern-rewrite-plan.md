@@ -1987,8 +1987,151 @@ git push origin master
 | 8 | README + CLAUDE.md | 2 docs |
 | 9 | Integration & deploy verification | Final checks |
 
-**Total: ~50 files, 9 tasks**
+**Total: ~50+ files, 12 tasks**
+
+---
+
+## Task 10: Visual/UX Fixes from Brendan
+
+**Files:**
+- Modify: `src/styles/globals.css` — safe area padding
+- Modify: `src/components/screens/HuntGame.tsx` — move quit to bottom
+- Modify: `src/components/game/StatsBar.tsx` — safe area top padding
+
+**Step 1: Fix top bar cut-off on phones**
+
+Add proper safe-area-inset-top padding to the header bars:
+
+```css
+/* In globals.css */
+.safe-top { padding-top: max(10px, env(safe-area-inset-top)); }
+```
+
+Apply `.safe-top` class to all `.bar` elements (header bars in each screen).
+
+**Step 2: Move hunt quit button to bottom**
+
+In `HuntGame.tsx`, move the quit button from the top HUD to a fixed bottom position:
+
+```tsx
+{/* Bottom quit bar */}
+<div className="fixed bottom-0 left-0 right-0 p-3 bg-surface border-t border-border safe-bottom">
+  <button onClick={onQuit} className="btn btn-s w-full">QUIT HUNT</button>
+</div>
+```
+
+**Step 3: Commit**
+
+```bash
+git commit -m "fix: safe area padding and hunt quit button placement"
+```
+
+---
+
+## Task 11: Metal Slug X Style Pixel Art & Visual Upgrade
+
+**Files:**
+- Create: `src/components/game/PixelScene.tsx` — canvas-based pixel art scene renderer
+- Create: `src/data/scenes.ts` — scene definitions per trail stop and event
+- Create: `src/components/game/ParallaxBackground.tsx` — scrolling travel background
+- Create: `public/sprites/` — pixel art sprite sheets (generated via design-craft:image-generation)
+- Modify: `src/components/screens/GameMap.tsx` — integrate pixel scenes
+- Modify: `src/components/game/EventModal.tsx` — add event illustrations
+- Modify: `src/components/game/TrailMap.tsx` — enhanced map with pixel car sprite
+
+This task requires the `design-craft:image-generation` skill or manual pixel art generation. The Metal Slug X aesthetic means:
+- **Bold, detailed pixel sprites** — exaggerated proportions, vibrant colors
+- **Multi-layer parallax backgrounds** — desert, mountains, cities scrolling at different speeds
+- **Event scene illustrations** — unique pixel art for each of the 12 events (bats, lizard people, police, wolves, etc.)
+- **Animated car sprite** — replaces the emoji car on the trail map
+- **Location-specific backgrounds** — Las Vegas neon, Idaho fields, Portland rain, Alaska snow
+
+**Step 1: Define scene data**
+
+```typescript
+// src/data/scenes.ts
+export interface SceneConfig {
+  background: string[]; // parallax layer image paths, back to front
+  palette: string[];     // color palette for the scene
+  particles?: 'rain' | 'snow' | 'sand' | 'bats';
+}
+
+export const STOP_SCENES: Record<string, SceneConfig> = {
+  start: { background: ['bg-desert-far.png', 'bg-vegas-mid.png', 'bg-vegas-near.png'], palette: ['#ff6600', '#ff0066', '#ffcc00'], particles: 'sand' },
+  seattle: { background: ['bg-forest-far.png', 'bg-city-mid.png', 'bg-rain-near.png'], palette: ['#336699', '#99ccff', '#003366'], particles: 'rain' },
+  // ... one per stop
+};
+
+export const EVENT_SCENES: Record<string, string> = {
+  bats: 'event-bats.png',      // pixel art of bat swarm
+  police: 'event-police.png',  // highway patrol car
+  wolves: 'event-wolves.png',  // wolf pack on road
+  // ... one per event
+};
+```
+
+**Step 2: Build ParallaxBackground component**
+
+Canvas-based multi-layer parallax that scrolls during travel. Each layer moves at a different speed to create depth.
+
+**Step 3: Build PixelScene component**
+
+Renders event-specific pixel art illustrations above the event text in EventModal.
+
+**Step 4: Generate pixel art assets**
+
+Use `design-craft:image-generation` skill to generate:
+- 12 location background sets (3 layers each)
+- 12 event illustrations
+- Car sprite (animated, 3 frames)
+- UI decorative elements (border frames, button sprites)
+
+All in Metal Slug X style: bright, detailed, slightly exaggerated proportions.
+
+**Step 5: Integrate into game screens**
+
+- GameMap gets ParallaxBackground behind the trail map
+- EventModal gets PixelScene illustrations
+- TrailMap gets pixel car sprite instead of emoji
+
+**Step 6: Commit**
+
+```bash
+git add src/components/game/PixelScene.tsx src/components/game/ParallaxBackground.tsx src/data/scenes.ts public/sprites/
+git commit -m "feat: add Metal Slug X style pixel art and parallax backgrounds"
+```
+
+---
+
+## Task 12: Final Visual Polish
+
+**Files:**
+- Modify: Various component files for animation and transition polish
+
+**Step 1: Add screen transitions**
+
+Fade/slide transitions between screens using CSS animations.
+
+**Step 2: Add travel animation**
+
+When traveling, show the parallax background scrolling with speed lines and the car bouncing.
+
+**Step 3: Add event entry animation**
+
+Events slide in with a dramatic Metal Slug style "WARNING" flash before the event title.
+
+**Step 4: Add stat change animations**
+
+When fuel/sanity/cash changes, the stat chip briefly flashes (green for gain, red for loss).
+
+**Step 5: Final commit**
+
+```bash
+git commit -m "feat: add animations and visual polish"
+```
+
+---
 
 ## Execution Approach
 
-Tasks 1-4 are foundational and sequential. Task 5 (UI) is the largest and can be parallelized by screen. Task 6 (networking) depends on stores (Task 4). Tasks 7-9 are finalization.
+Tasks 1-4 are foundational and sequential. Task 5 (UI) is the largest and can be parallelized by screen. Task 6 (networking) depends on stores (Task 4). Tasks 7-9 are finalization. Tasks 10-12 are Brendan's visual/UX enhancements — Task 10 is quick fixes, Tasks 11-12 are the art upgrade.
