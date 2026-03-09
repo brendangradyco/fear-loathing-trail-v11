@@ -167,30 +167,66 @@ export default function App() {
 		<>
 			{/* Active screen */}
 			{screen === "loading" && (
-				<div className="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-bg">
+				<div className="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-bg safe-top">
 					<div className="h-10 w-10 animate-spin rounded-full border-3 border-border border-t-orange" />
 					<h2 className="font-bold text-orange">We can&apos;t stop here...</h2>
 					<p className="text-[12px] text-dim">this is bat country</p>
 				</div>
 			)}
 
-			{screen === "char" && <CharCreate onComplete={handleCharComplete} />}
+			{screen === "char" && (
+				<div className="animate-fade-in">
+					<CharCreate onComplete={handleCharComplete} />
+				</div>
+			)}
 
-			{screen === "location" && <LocationSelect onComplete={handleLocationComplete} />}
+			{screen === "location" && (
+				<div className="animate-fade-in">
+					<LocationSelect onComplete={handleLocationComplete} />
+				</div>
+			)}
 
-			{screen === "skills" && <SkillReview onComplete={handleSkillsComplete} />}
+			{screen === "skills" && (
+				<div className="animate-fade-in">
+					<SkillReview onComplete={handleSkillsComplete} />
+				</div>
+			)}
 
-			{screen === "lobby" && <Lobby onStartGame={handleStartGame} />}
+			{screen === "lobby" && (
+				<div className="animate-fade-in">
+					<Lobby onStartGame={handleStartGame} />
+				</div>
+			)}
 
-			{screen === "shop" && <Shop onLeave={handleShopLeave} isFirstVisit={isFirstShopVisit} />}
+			{screen === "shop" && (
+				<div className="animate-fade-in">
+					<Shop onLeave={handleShopLeave} isFirstVisit={isFirstShopVisit} />
+				</div>
+			)}
 
-			{screen === "map" && <GameMap onShop={handleShopOpen} onHunt={handleHuntStart} />}
+			{screen === "map" && (
+				<div className="animate-fade-in">
+					<GameMap onShop={handleShopOpen} onHunt={handleHuntStart} />
+				</div>
+			)}
 
-			{screen === "hunt" && <HuntGame onEnd={handleHuntEnd} />}
+			{screen === "hunt" && (
+				<div className="animate-fade-in">
+					<HuntGame onEnd={handleHuntEnd} />
+				</div>
+			)}
 
-			{screen === "dead" && <DeathScreen reason={deathReason} onRestart={handleRestart} />}
+			{screen === "dead" && (
+				<div className="animate-fade-in">
+					<DeathScreen reason={deathReason} onRestart={handleRestart} />
+				</div>
+			)}
 
-			{screen === "win" && <WinScreen onRestart={handleRestart} />}
+			{screen === "win" && (
+				<div className="animate-fade-in">
+					<WinScreen onRestart={handleRestart} />
+				</div>
+			)}
 
 			{/* Overlays */}
 			{showOverlays && (

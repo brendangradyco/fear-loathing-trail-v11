@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { TRAIL_STOPS } from "../../data/trailStops";
+import { DesertParallax, PixelCar } from "./PixelScene";
 
 interface TrailMapProps {
 	currentIdx: number;
@@ -15,68 +16,73 @@ export default function TrailMap({ currentIdx }: TrailMapProps) {
 		const ctx = canvas.getContext("2d");
 		if (!ctx) return;
 
-		// Size canvas to container
 		canvas.width = canvas.offsetWidth || 320;
 		const W = canvas.width;
-		const H = canvas.height || 140;
+		const H = 40; // Just the stop indicators
+		canvas.height = H;
 
-		// Gradient background
-		const grad = ctx.createLinearGradient(0, 0, W, 0);
-		grad.addColorStop(0, "#1a0a00");
-		grad.addColorStop(1, "#001a0a");
-		ctx.fillStyle = grad;
-		ctx.fillRect(0, 0, W, H);
+		// Transparent background — desert parallax is behind us
+		ctx.clearRect(0, 0, W, H);
 
-		// Road
-		const roadY = H * 0.65;
+		// Road line
 		ctx.strokeStyle = "#333";
-		ctx.lineWidth = 6;
+		ctx.lineWidth = 4;
+		const roadY = 20;
 		ctx.beginPath();
-		ctx.moveTo(0, roadY);
-		ctx.lineTo(W, roadY);
+		ctx.moveTo(10, roadY);
+		ctx.lineTo(W - 10, roadY);
 		ctx.stroke();
-
-		ctx.strokeStyle = "#444";
-		ctx.lineWidth = 2;
-		ctx.setLineDash([20, 15]);
-		ctx.beginPath();
-		ctx.moveTo(0, roadY);
-		ctx.lineTo(W, roadY);
-		ctx.stroke();
-		ctx.setLineDash([]);
 
 		// Stops
 		const stops = TRAIL_STOPS;
-		const sx = (i: number) => Math.round(20 + (i * (W - 40)) / (stops.length - 1));
+		const sx = (i: number) => Math.round(15 + (i * (W - 30)) / (stops.length - 1));
 
 		for (let i = 0; i < stops.length; i++) {
 			const x = sx(i);
-			const y = roadY;
-
 			ctx.beginPath();
-			ctx.arc(x, y, i === currentIdx ? 8 : 5, 0, Math.PI * 2);
+			ctx.arc(x, roadY, i === currentIdx ? 7 : 4, 0, Math.PI * 2);
 			ctx.fillStyle = i < currentIdx ? "#00ff88" : i === currentIdx ? "#ff6600" : "#333";
 			ctx.fill();
 
-			// Labels for current, first, and last
+			// Labels for key stops
 			if (i === currentIdx || i === 0 || i === stops.length - 1) {
-				ctx.fillStyle = "#ccc";
+				ctx.fillStyle = "#999";
 				ctx.font = "9px monospace";
 				ctx.textAlign = "center";
 				const stop = stops[i]!;
-				ctx.fillText(stop.emoji || stop.name.slice(0, 3), x, y - 14);
+				ctx.fillText(
+					stop.name.length > 8 ? `${stop.name.slice(0, 6)}..` : stop.name,
+					x,
+					roadY + 16,
+				);
 			}
-		}
-
-		// Player car marker
-		if (currentIdx < stops.length) {
-			const px = sx(currentIdx);
-			ctx.fillStyle = "#ff6600";
-			ctx.font = "16px serif";
-			ctx.textAlign = "center";
-			ctx.fillText("🚗", px, roadY - 20);
 		}
 	}, [currentIdx]);
 
-	return <canvas ref={canvasRef} height={140} className="block w-full shrink-0" />;
+	return (
+		<div className="relative shrink-0 overflow-hidden">
+			{/* Parallax desert background */}
+			<DesertParallax offset={currentIdx * 30} />
+
+			{/* Pixel car on the road */}
+			<div
+				className="absolute animate-pulse-glow"
+				style={{
+					left: `${Math.min(5 + (currentIdx / Math.max(TRAIL_STOPS.length - 1, 1)) * 85, 90)}%`,
+					bottom: "24px",
+					width: "40px",
+					transition: "left 0.8s ease-in-out",
+				}}
+			>
+				<PixelCar className="w-full" />
+			</div>
+
+			{/* Stop indicator overlay */}
+			<canvas
+				ref={canvasRef}
+				className="absolute bottom-0 left-0 block w-full"
+				style={{ height: "40px" }}
+			/>
+		</div>
+	);
 }

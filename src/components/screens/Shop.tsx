@@ -30,7 +30,7 @@ export default function Shop({ onLeave, isFirstVisit = false }: ShopProps) {
 	return (
 		<div className="fixed inset-0 flex flex-col bg-bg">
 			{/* Header */}
-			<div className="flex shrink-0 items-center gap-2.5 border-b border-border bg-surface px-3.5 py-2.5">
+			<div className="safe-top flex shrink-0 items-center gap-2.5 border-b border-border bg-surface px-3.5 py-2.5">
 				<span className="flex-1 text-[15px] font-bold text-orange">{"💊"} THE STASH</span>
 				<div className="text-sm font-bold text-yellow">${cash}</div>
 			</div>

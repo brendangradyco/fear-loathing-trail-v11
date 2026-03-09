@@ -38,7 +38,7 @@ export default function StatsBar() {
 	];
 
 	return (
-		<div className="flex shrink-0 flex-wrap gap-1.5 border-b border-border bg-surface px-2.5 py-2">
+		<div className="safe-top flex shrink-0 flex-wrap gap-1.5 border-b border-border bg-surface px-2.5 py-2">
 			{chips.map((ch) => (
 				<div
 					key={ch.icon}

@@ -203,7 +203,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 	return (
 		<div className="fixed inset-0 flex flex-col bg-bg">
 			{/* HUD */}
-			<div className="flex shrink-0 items-center justify-between border-b border-border bg-surface px-3.5 py-2">
+			<div className="safe-top flex shrink-0 items-center justify-between border-b border-border bg-surface px-3.5 py-2">
 				<span className="text-[13px] font-bold text-orange">
 					{"🔫"} {ammo}
 				</span>
@@ -213,23 +213,27 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 				<span className="text-[13px] font-bold text-orange">
 					{"⏱️"} {timeLeft}s
 				</span>
-				<button
-					type="button"
-					onClick={handleQuit}
-					className="rounded-md border border-orange bg-transparent px-3 py-1.5 text-[12px] text-orange"
-				>
-					QUIT
-				</button>
 			</div>
 
 			{/* Canvas */}
 			<canvas
 				ref={canvasRef}
 				height={320}
-				className="block w-full shrink-0 cursor-crosshair bg-[#0a0a0a]"
+				className="block w-full flex-1 cursor-crosshair bg-[#0a0a0a]"
 				onClick={handleShoot}
 				onTouchStart={handleShoot}
 			/>
+
+			{/* Quit button at bottom */}
+			<div className="safe-bottom shrink-0 border-t border-border bg-surface px-3.5 py-2.5">
+				<button
+					type="button"
+					onClick={handleQuit}
+					className="w-full rounded-lg border border-orange bg-transparent py-3 text-sm font-bold text-orange active:opacity-75"
+				>
+					QUIT HUNT
+				</button>
+			</div>
 		</div>
 	);
 }

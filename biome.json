@@ -4,8 +4,18 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"a11y": {
+				"noSvgWithoutTitle": "off"
+			},
+			"style": {
+				"noNonNullAssertion": "warn"
+			}
 		}
+	},
+	"css": {
+		"formatter": { "enabled": false },
+		"linter": { "enabled": false }
 	},
 	"formatter": {
 		"enabled": true,

@@ -53,9 +53,10 @@ export default function ChatPanel() {
 			}`}
 		>
 			{/* Toggle bar */}
-			<div
+			<button
+				type="button"
 				onClick={toggleChat}
-				className="flex shrink-0 cursor-pointer items-center gap-2 border-t border-border bg-surface px-3.5 py-2"
+				className="flex w-full shrink-0 cursor-pointer items-center gap-2 border-t border-border bg-surface px-3.5 py-2 text-left"
 			>
 				<span className="flex-1 text-[12px] text-dim">
 					{"💬"} Chat {chatOpen ? "(tap to close)" : "(tap to open)"}
@@ -65,7 +66,7 @@ export default function ChatPanel() {
 						{chatBadge}
 					</span>
 				)}
-			</div>
+			</button>
 
 			{/* Messages */}
 			{chatOpen && (

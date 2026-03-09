@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import { useGameStore } from "../../stores/gameStore";
 import type { GameEvent } from "../../types";
 import { toast } from "../shared/Toast";
+import { EventIllustration } from "./PixelScene";
 
 interface EventModalProps {
 	event: GameEvent;
@@ -19,7 +20,10 @@ export default function EventModal({ event }: EventModalProps) {
 	);
 
 	return (
-		<div className="mb-2.5 rounded-xl border border-orange bg-surface2 p-3.5">
+		<div className="animate-slide-up mb-2.5 rounded-xl border border-orange bg-surface2 p-3.5">
+			{/* Pixel art illustration */}
+			<EventIllustration eventId={event.id} />
+
 			<div className="mb-2 text-[15px] font-bold text-orange">{event.title}</div>
 			<div className="mb-3 text-[13px] leading-relaxed text-text">{event.text}</div>
 			<div className="flex flex-col gap-2">
