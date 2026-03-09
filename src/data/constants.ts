@@ -1,0 +1,33 @@
+export const CFG = {
+	VERSION: "v3",
+	PEER_PREFIX: "flt3room",
+	MIN_ROOM_CODE: 6,
+	MAX_PLAYERS: 6,
+	REROLLS: 3,
+	STORE_KEY: "flt3_player",
+	GAME_KEY: "flt3_game",
+	PID_KEY: "flt3_pid",
+	HUNT_DURATION: 30,
+	HUNT_TARGET_COUNT: 6,
+	HUNT_TARGET_EMOJIS: ["🦇", "🦎", "🐍", "🦅"],
+	EVENT_CHANCE: 0.4,
+	TRAVEL_FUEL_BASE: 20,
+	TRAVEL_FUEL_VARIANCE: 15,
+	REST_SANITY_GAIN: 15,
+	REST_FUEL_COST: 5,
+	STARTING_CASH: 350,
+	STARTING_FUEL: 100,
+	STARTING_SANITY: 100,
+	STARTING_SUPPLIES: 5,
+	STARTING_DISGUISES: 2,
+	STARTING_LASER_AMMO: 10,
+} as const;
+
+export const SKILL_LABELS: Record<string, string> = {
+	driving: "Driving",
+	navigation: "Navigation",
+	smooth: "Smooth Talk",
+	mechanical: "Mechanical",
+	charisma: "Charisma",
+	survival: "Survival",
+};
