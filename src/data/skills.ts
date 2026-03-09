@@ -9,10 +9,13 @@ export const SKILLS_BY_REGION: Record<string, SkillSet> = {
 };
 
 export function generateSkills(region: Region | string): SkillSet {
-	const base = SKILLS_BY_REGION[region] ?? SKILLS_BY_REGION.default;
-	const out: Record<string, number> = {};
-	for (const [k, v] of Object.entries(base)) {
-		out[k] = Math.max(10, Math.min(95, v + Math.floor(Math.random() * 30 - 15)));
-	}
-	return out as unknown as SkillSet;
+	const base: SkillSet = SKILLS_BY_REGION[region] ?? SKILLS_BY_REGION["default"]!;
+	return {
+		driving: Math.max(10, Math.min(95, base.driving + Math.floor(Math.random() * 30 - 15))),
+		navigation: Math.max(10, Math.min(95, base.navigation + Math.floor(Math.random() * 30 - 15))),
+		smooth: Math.max(10, Math.min(95, base.smooth + Math.floor(Math.random() * 30 - 15))),
+		mechanical: Math.max(10, Math.min(95, base.mechanical + Math.floor(Math.random() * 30 - 15))),
+		charisma: Math.max(10, Math.min(95, base.charisma + Math.floor(Math.random() * 30 - 15))),
+		survival: Math.max(10, Math.min(95, base.survival + Math.floor(Math.random() * 30 - 15))),
+	};
 }

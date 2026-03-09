@@ -120,7 +120,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 		if (item.setEffects) {
 			for (const [key, val] of Object.entries(item.setEffects)) {
 				if (val !== undefined && key in next) {
-					(next as Record<string, unknown>)[key] = val;
+					(next as unknown as Record<string, unknown>)[key] = val;
 				}
 			}
 		}
