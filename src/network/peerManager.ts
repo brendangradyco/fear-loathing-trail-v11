@@ -137,10 +137,15 @@ class PeerManager {
 				reject(new Error("No peer instance"));
 				return;
 			}
+			if (!player.data) {
+				reject(new Error("No player data — create character first"));
+				return;
+			}
 
+			const playerData = player.data;
 			const conn = this.peer.connect(hostId, {
 				reliable: true,
-				metadata: { pid: player.id, player: player.data },
+				metadata: { pid: player.id, player: playerData },
 			});
 
 			conn.on("open", () => {
@@ -148,7 +153,7 @@ class PeerManager {
 				const msg: MessageType = {
 					type: "HELLO",
 					pid: player.id,
-					player: player.data!,
+					player: playerData,
 				};
 				conn.send(msg);
 				useNetworkStore.getState().setStatus("connected");
@@ -347,17 +352,18 @@ class PeerManager {
 			case "MEET": {
 				// Connect directly to this peer for mesh networking
 				const meetPeerId = msg.peerId;
-				if (meetPeerId && meetPeerId !== player.id && !this.conns[meetPeerId] && this.peer) {
+				if (meetPeerId && meetPeerId !== player.id && !this.conns[meetPeerId] && this.peer && player.data) {
+					const meetPlayerData = player.data;
 					const conn = this.peer.connect(meetPeerId, {
 						reliable: true,
-						metadata: { pid: player.id, player: player.data },
+						metadata: { pid: player.id, player: meetPlayerData },
 					});
 					conn.on("open", () => {
 						this._setupDataConn(conn);
 						const hello: MessageType = {
 							type: "HELLO",
 							pid: player.id,
-							player: player.data!,
+							player: meetPlayerData,
 						};
 						conn.send(hello);
 

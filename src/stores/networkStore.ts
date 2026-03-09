@@ -116,6 +116,13 @@ export const useNetworkStore = create<NetworkStore>((set, get) => ({
 	},
 
 	reset: () => {
+		// Stop all media tracks before dropping the reference
+		const { localStream } = get();
+		if (localStream) {
+			for (const track of localStream.getTracks()) {
+				track.stop();
+			}
+		}
 		set({
 			roomId: null,
 			isHost: false,

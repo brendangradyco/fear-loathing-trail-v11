@@ -99,18 +99,27 @@ export default function App() {
 
 	// Character creation complete
 	const handleCharComplete = useCallback((name: string, sex: Sex, age: Age, quirks: string[]) => {
-		// Store pending char data, go to location select
-		window.__pendingChar = { name, sex, age, quirks };
+		// Store pending char data in sessionStorage, go to location select
+		sessionStorage.setItem(
+			"__pendingChar",
+			JSON.stringify({ name, sex, age, quirks }),
+		);
 		setScreen("location");
 	}, []);
 
 	// Location selected
 	const handleLocationComplete = useCallback(
 		(region: Region) => {
-			const pending = window.__pendingChar;
-			if (pending) {
+			const raw = sessionStorage.getItem("__pendingChar");
+			if (raw) {
+				const pending = JSON.parse(raw) as {
+					name: string;
+					sex: Sex;
+					age: Age;
+					quirks: string[];
+				};
 				createCharacter(pending.name, pending.sex, pending.age, pending.quirks, region);
-				delete window.__pendingChar;
+				sessionStorage.removeItem("__pendingChar");
 			}
 			setScreen("skills");
 		},
@@ -242,14 +251,3 @@ export default function App() {
 	);
 }
 
-// Type augmentation for temp char storage during multi-step creation
-declare global {
-	interface Window {
-		__pendingChar?: {
-			name: string;
-			sex: Sex;
-			age: Age;
-			quirks: string[];
-		};
-	}
-}

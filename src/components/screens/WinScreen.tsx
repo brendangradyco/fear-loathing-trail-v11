@@ -50,11 +50,21 @@ function WinIllustration() {
 			<rect x="0" y="90" width="200" height="8" fill="#334" />
 
 			{/* City lights in distance */}
-			{[40, 55, 70, 85, 100, 115, 130, 145, 160].map((x) => (
+			{[
+				[40, 75],
+				[55, 77],
+				[70, 74],
+				[85, 76],
+				[100, 73],
+				[115, 77],
+				[130, 75],
+				[145, 74],
+				[160, 76],
+			].map(([x, y]) => (
 				<rect
 					key={x}
 					x={x}
-					y={78 - Math.random() * 5}
+					y={y}
 					width="3"
 					height="4"
 					fill="#ffcc00"

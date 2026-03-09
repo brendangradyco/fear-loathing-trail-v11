@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { peerManager } from "../../network/peerManager";
 import { useNetworkStore } from "../../stores/networkStore";
 import { usePlayerStore } from "../../stores/playerStore";
 
@@ -7,13 +8,11 @@ export default function ChatPanel() {
 	const chatMessages = useNetworkStore((s) => s.chatMessages);
 	const chatBadge = useNetworkStore((s) => s.chatBadge);
 	const toggleChat = useNetworkStore((s) => s.toggleChat);
-	const addChatMessage = useNetworkStore((s) => s.addChatMessage);
 	const toggleMic = useNetworkStore((s) => s.toggleMic);
 	const toggleCam = useNetworkStore((s) => s.toggleCam);
 	const micMuted = useNetworkStore((s) => s.micMuted);
 	const camOn = useNetworkStore((s) => s.camOn);
 	const playerId = usePlayerStore((s) => s.id);
-	const playerName = usePlayerStore((s) => s.data?.name ?? "Anonymous");
 
 	const [input, setInput] = useState("");
 	const msgsRef = useRef<HTMLDivElement>(null);
@@ -23,18 +22,15 @@ export default function ChatPanel() {
 		if (msgsRef.current) {
 			msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
 		}
-	}, []);
+	}, [chatMessages.length]);
 
 	const handleSend = useCallback(() => {
 		const text = input.trim();
 		if (!text) return;
-		addChatMessage({
-			sender: playerId,
-			senderName: playerName,
-			text,
-		});
+		// sendChat broadcasts to peers AND adds locally
+		peerManager.sendChat(text);
 		setInput("");
-	}, [input, playerId, playerName, addChatMessage]);
+	}, [input]);
 
 	const handleKeyDown = useCallback(
 		(e: React.KeyboardEvent) => {

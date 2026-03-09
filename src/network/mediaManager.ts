@@ -103,10 +103,6 @@ export async function toggleCam(): Promise<void> {
 		return;
 	}
 
-	// If camera is on, stop all tracks entirely
-	if (net.camOn) {
-		stopCamera();
-	} else {
-		await startCamera();
-	}
+	// Toggle video tracks only (preserve audio)
+	net.toggleCam();
 }

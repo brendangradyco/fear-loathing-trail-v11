@@ -95,7 +95,7 @@ export interface ShopItem {
 	desc: string;
 	price: number;
 	effects: EventEffect;
-	setEffects?: Partial<Record<string, number>>;
+	setEffects?: EventEffect;
 	sideEffect?: { chance: number; effects: EventEffect };
 }
 

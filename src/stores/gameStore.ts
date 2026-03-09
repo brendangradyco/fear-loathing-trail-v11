@@ -16,7 +16,7 @@ interface GameStore {
 	doRest: () => void;
 	doResolveEvent: (choiceId: string) => string;
 	doBuyItem: (item: ShopItem) => boolean;
-	addHuntReward: (meat: number) => void;
+	addHuntReward: (meat: number, ammoRemaining: number) => void;
 	addLog: (txt: string, bad?: boolean, good?: boolean) => void;
 	finishGame: () => void;
 	clearEvent: () => void;
@@ -82,6 +82,13 @@ export const useGameStore = create<GameStore>((set, get) => ({
 		if (!current) return;
 
 		const next = rest(current);
+		const death = checkDeath(next);
+		if (death) {
+			const dead = { ...next, phase: Phase.DEAD };
+			set({ state: dead, deathReason: death });
+			saveGame(dead);
+			return;
+		}
 		set({ state: next });
 		saveGame(next);
 	},
@@ -118,11 +125,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
 		// Apply absolute/set effects (e.g., fuel: 100)
 		if (item.setEffects) {
-			for (const [key, val] of Object.entries(item.setEffects)) {
-				if (val !== undefined && key in next) {
-					(next as unknown as Record<string, unknown>)[key] = val;
-				}
-			}
+			const se = item.setEffects;
+			if (se.fuel !== undefined) next = { ...next, fuel: se.fuel };
+			if (se.sanity !== undefined) next = { ...next, sanity: se.sanity };
+			if (se.cash !== undefined) next = { ...next, cash: se.cash };
+			if (se.supplies !== undefined) next = { ...next, supplies: se.supplies };
+			if (se.disguises !== undefined) next = { ...next, disguises: se.disguises };
+			if (se.laserAmmo !== undefined) next = { ...next, laserAmmo: se.laserAmmo };
+			if (se.meat !== undefined) next = { ...next, meat: se.meat };
 		}
 
 		// Handle side effects (e.g., adrenochrome bad trip)
@@ -135,7 +145,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 		return true;
 	},
 
-	addHuntReward: (meat) => {
+	addHuntReward: (meat, ammoRemaining) => {
 		const { state: current } = get();
 		if (!current) return;
 
@@ -143,6 +153,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
 			...current,
 			meat: current.meat + meat,
 			supplies: current.supplies + Math.floor(meat / 2),
+			laserAmmo: ammoRemaining,
 			phase: Phase.TRAVEL,
 		};
 		set({ state: next });

@@ -30,7 +30,8 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
 		const W = canvas.offsetWidth || 320;
-		const H = canvas.height || 320;
+		const H = canvas.offsetHeight || 320;
+		canvas.height = H;
 		targetsRef.current = spawnTargets(W, H);
 	}, []);
 
@@ -53,7 +54,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 		if (timeLeft <= 0 && activeRef.current) {
 			activeRef.current = false;
 			const meatCount = meatRef.current;
-			addHuntReward(meatCount);
+			addHuntReward(meatCount, ammoRef.current);
 			addLog(
 				`Hunt: got ${meatCount} creatures. Supplies +${Math.floor(meatCount / 2)}`,
 				false,
@@ -74,8 +75,9 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 			if (!ctx) return;
 
 			canvas.width = canvas.offsetWidth || 320;
+			canvas.height = canvas.offsetHeight || 320;
 			const W = canvas.width;
-			const H = canvas.height || 320;
+			const H = canvas.height;
 
 			// Background
 			ctx.fillStyle = "#060606";
@@ -165,7 +167,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 			// Respawn if all dead
 			if (targetsRef.current.every((t) => !t.alive)) {
 				const W = canvas.offsetWidth || 320;
-				const H = canvas.height || 320;
+				const H = canvas.offsetHeight || 320;
 				targetsRef.current = spawnTargets(W, H);
 			}
 
@@ -173,7 +175,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 			if (ammoRef.current <= 0 && activeRef.current) {
 				activeRef.current = false;
 				const meatCount = meatRef.current;
-				addHuntReward(meatCount);
+				addHuntReward(meatCount, ammoRef.current);
 				addLog(
 					`Hunt: got ${meatCount} creatures. Supplies +${Math.floor(meatCount / 2)}`,
 					false,
@@ -190,7 +192,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 		if (!activeRef.current) return;
 		activeRef.current = false;
 		const meatCount = meatRef.current;
-		addHuntReward(meatCount);
+		addHuntReward(meatCount, ammoRef.current);
 		addLog(
 			`Hunt: got ${meatCount} creatures. Supplies +${Math.floor(meatCount / 2)}`,
 			false,
@@ -218,7 +220,6 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 			{/* Canvas */}
 			<canvas
 				ref={canvasRef}
-				height={320}
 				className="block w-full flex-1 cursor-crosshair bg-[#0a0a0a]"
 				onClick={handleShoot}
 				onTouchStart={handleShoot}
