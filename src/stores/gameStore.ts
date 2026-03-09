@@ -1,9 +1,9 @@
 import { create } from "zustand";
+import { applyEffects, resolveEventChoice } from "../engine/eventResolver";
+import { checkDeath, checkWin, createNewGame, rest, travel } from "../engine/gameLoop";
 import type { GameEvent, GameState, LogEntry, ShopItem, SkillSet } from "../types";
 import { Phase } from "../types";
-import { createNewGame, travel, rest, checkDeath, checkWin } from "../engine/gameLoop";
-import { applyEffects, resolveEventChoice } from "../engine/eventResolver";
-import { saveGame, loadGame, clearGame } from "../utils/storage";
+import { clearGame, loadGame, saveGame } from "../utils/storage";
 
 interface GameStore {
 	state: GameState | null;

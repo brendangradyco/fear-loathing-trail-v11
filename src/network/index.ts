@@ -1,3 +1,3 @@
-export { peerManager, initNetwork, broadcastState } from "./peerManager";
-export { startCamera, stopCamera, toggleMic, toggleCam } from "./mediaManager";
+export { startCamera, stopCamera, toggleCam, toggleMic } from "./mediaManager";
 export { parseMessage } from "./messageProtocol";
+export { broadcastState, initNetwork, peerManager } from "./peerManager";

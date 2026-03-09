@@ -1,6 +1,6 @@
+import type { EventEffect, GameEvent, GameState } from "../types";
 import { clamp } from "../utils/clamp";
 import { rollSkill } from "./skillCheck";
-import type { EventEffect, GameEvent, GameState } from "../types";
 
 export function applyEffects(state: GameState, effects: EventEffect): GameState {
 	const next = { ...state };

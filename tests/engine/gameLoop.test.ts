@@ -1,8 +1,8 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { CFG } from "../../src/data/constants";
 import { checkDeath, checkWin, createNewGame, rest } from "../../src/engine/gameLoop";
-import { Phase } from "../../src/types";
 import type { SkillSet } from "../../src/types";
+import { Phase } from "../../src/types";
 
 const testSkills: SkillSet = {
 	driving: 60,

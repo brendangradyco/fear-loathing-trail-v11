@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { useGameStore } from "../../stores/gameStore";
 import { DRUG_SHOP, SUPPLY_SHOP } from "../../data/shops";
+import { useGameStore } from "../../stores/gameStore";
 import type { ShopItem } from "../../types";
 import { toast } from "../shared/Toast";
 
@@ -31,9 +31,7 @@ export default function Shop({ onLeave, isFirstVisit = false }: ShopProps) {
 		<div className="fixed inset-0 flex flex-col bg-bg">
 			{/* Header */}
 			<div className="flex shrink-0 items-center gap-2.5 border-b border-border bg-surface px-3.5 py-2.5">
-				<span className="flex-1 text-[15px] font-bold text-orange">
-					{"💊"} THE STASH
-				</span>
+				<span className="flex-1 text-[15px] font-bold text-orange">{"💊"} THE STASH</span>
 				<div className="text-sm font-bold text-yellow">${cash}</div>
 			</div>
 
@@ -48,10 +46,9 @@ export default function Shop({ onLeave, isFirstVisit = false }: ShopProps) {
 							<div className="font-bold text-orange">{item.name}</div>
 							<div className="mt-0.5 text-[11px] text-dim">{item.desc}</div>
 						</div>
-						<div className="min-w-[52px] text-right font-bold text-yellow">
-							${item.price}
-						</div>
+						<div className="min-w-[52px] text-right font-bold text-yellow">${item.price}</div>
 						<button
+							type="button"
 							onClick={() => handleBuy(item)}
 							disabled={cash < item.price}
 							className="shrink-0 rounded-md bg-orange px-3.5 py-2 text-[13px] font-bold text-black disabled:opacity-40"
@@ -64,11 +61,10 @@ export default function Shop({ onLeave, isFirstVisit = false }: ShopProps) {
 				<div className="h-2" />
 
 				<button
+					type="button"
 					onClick={onLeave}
 					className={`w-full rounded-lg p-3.5 text-base font-bold active:opacity-75 ${
-						isFirstVisit
-							? "bg-green text-black"
-							: "border border-orange bg-transparent text-orange"
+						isFirstVisit ? "bg-green text-black" : "border border-orange bg-transparent text-orange"
 					}`}
 				>
 					{isFirstVisit ? "HIT THE TRAIL 🚗" : "← Back to Trail"}

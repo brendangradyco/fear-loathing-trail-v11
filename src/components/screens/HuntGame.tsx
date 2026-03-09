@@ -1,12 +1,8 @@
-import { useRef, useEffect, useState, useCallback } from "react";
-import { useGameStore } from "../../stores/gameStore";
-import {
-	spawnTargets,
-	updateTargets,
-	checkHit,
-} from "../../engine/hunting";
-import type { HuntTarget } from "../../engine/hunting";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { CFG } from "../../data/constants";
+import type { HuntTarget } from "../../engine/hunting";
+import { checkHit, spawnTargets, updateTargets } from "../../engine/hunting";
+import { useGameStore } from "../../stores/gameStore";
 import { toast } from "../shared/Toast";
 
 interface HuntGameProps {
@@ -63,9 +59,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 				false,
 				meatCount > 0,
 			);
-			toast(
-				`Hunt over! +${meatCount} meat, +${Math.floor(meatCount / 2)} supplies`,
-			);
+			toast(`Hunt over! +${meatCount} meat, +${Math.floor(meatCount / 2)} supplies`);
 			onEnd();
 		}
 	}, [timeLeft, addHuntReward, addLog, onEnd]);
@@ -185,9 +179,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 					false,
 					meatCount > 0,
 				);
-				toast(
-					`Hunt over! +${meatCount} meat, +${Math.floor(meatCount / 2)} supplies`,
-				);
+				toast(`Hunt over! +${meatCount} meat, +${Math.floor(meatCount / 2)} supplies`);
 				onEnd();
 			}
 		},
@@ -204,9 +196,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 			false,
 			meatCount > 0,
 		);
-		toast(
-			`Hunt over! +${meatCount} meat, +${Math.floor(meatCount / 2)} supplies`,
-		);
+		toast(`Hunt over! +${meatCount} meat, +${Math.floor(meatCount / 2)} supplies`);
 		onEnd();
 	}, [addHuntReward, addLog, onEnd]);
 
@@ -224,6 +214,7 @@ export default function HuntGame({ onEnd }: HuntGameProps) {
 					{"⏱️"} {timeLeft}s
 				</span>
 				<button
+					type="button"
 					onClick={handleQuit}
 					className="rounded-md border border-orange bg-transparent px-3 py-1.5 text-[12px] text-orange"
 				>

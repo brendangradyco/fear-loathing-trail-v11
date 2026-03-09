@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { applyEffects, resolveEventChoice } from "../../src/engine/eventResolver";
-import { Phase } from "../../src/types";
 import type { GameEvent, GameState } from "../../src/types";
+import { Phase } from "../../src/types";
 
 function makeState(overrides?: Partial<GameState>): GameState {
 	return {

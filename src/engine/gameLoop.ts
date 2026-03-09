@@ -1,8 +1,8 @@
 import { CFG } from "../data/constants";
 import { EVENTS } from "../data/events";
 import { TRAIL_STOPS } from "../data/trailStops";
-import { Phase } from "../types";
 import type { GameEvent, GameState, SkillSet } from "../types";
+import { Phase } from "../types";
 import { clamp } from "../utils/clamp";
 
 export function createNewGame(skills: SkillSet, playerId: string, playerName: string): GameState {

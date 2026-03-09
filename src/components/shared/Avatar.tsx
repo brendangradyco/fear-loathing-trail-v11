@@ -15,19 +15,9 @@ export default function Avatar({ player, className = "" }: AvatarProps) {
 	const isFem = sex === "female";
 
 	// Deterministic color from name (or fallback)
-	const nameHash = (player.name ?? "Duke")
-		.split("")
-		.reduce((acc, c) => acc + c.charCodeAt(0), 0);
+	const nameHash = (player.name ?? "Duke").split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
 	const skins = ["#fde8d0", "#f0c5a0", "#d4956a", "#a0622a", "#6b3a1f"];
-	const hairColors = [
-		"#222",
-		"#8b4513",
-		"#ff6600",
-		"#ffd700",
-		"#cc0000",
-		"#9933ff",
-		"#00aa88",
-	];
+	const hairColors = ["#222", "#8b4513", "#ff6600", "#ffd700", "#cc0000", "#9933ff", "#00aa88"];
 	const skin = skins[nameHash % skins.length]!;
 	const hair = hairColors[(nameHash + 3) % hairColors.length]!;
 
@@ -54,11 +44,7 @@ export default function Avatar({ player, className = "" }: AvatarProps) {
 	const mouthY = headY + 13;
 
 	return (
-		<svg
-			viewBox="0 0 100 150"
-			xmlns="http://www.w3.org/2000/svg"
-			className={className}
-		>
+		<svg viewBox="0 0 100 150" xmlns="http://www.w3.org/2000/svg" className={className}>
 			{/* Stank butt (behind body) */}
 			{hasStankButt &&
 				[0, 1, 2].map((i) => (
@@ -80,25 +66,11 @@ export default function Avatar({ player, className = "" }: AvatarProps) {
 					<rect x="52" y="133" width="12" height="4" rx="2" fill="#888" />
 				</>
 			) : (
-				<rect
-					x="55"
-					y="105"
-					width="12"
-					height="30"
-					rx="4"
-					fill={bodyColor}
-				/>
+				<rect x="55" y="105" width="12" height="30" rx="4" fill={bodyColor} />
 			)}
 
 			{/* Body */}
-			<rect
-				x={bodyX}
-				y="72"
-				width={bodyW}
-				height="35"
-				rx="6"
-				fill={bodyColor}
-			/>
+			<rect x={bodyX} y="72" width={bodyW} height="35" rx="6" fill={bodyColor} />
 			<line x1="50" y1="72" x2="50" y2="107" stroke="#ffffff33" strokeWidth="1" />
 
 			{/* Tattoos */}
@@ -125,75 +97,22 @@ export default function Avatar({ player, className = "" }: AvatarProps) {
 			<circle cx="50" cy={headY} r={headSize} fill={skin} />
 
 			{/* Blush */}
-			<circle
-				cx="34"
-				cy={headY + 4}
-				r="5"
-				fill="#ff9999"
-				opacity="0.4"
-			/>
-			<circle
-				cx="66"
-				cy={headY + 4}
-				r="5"
-				fill="#ff9999"
-				opacity="0.4"
-			/>
+			<circle cx="34" cy={headY + 4} r="5" fill="#ff9999" opacity="0.4" />
+			<circle cx="66" cy={headY + 4} r="5" fill="#ff9999" opacity="0.4" />
 
 			{/* Hair */}
 			{hasMohawk ? (
-				<rect
-					x="46"
-					y={headY - headSize - 12}
-					width="8"
-					height="16"
-					rx="3"
-					fill={hair}
-				/>
+				<rect x="46" y={headY - headSize - 12} width="8" height="16" rx="3" fill={hair} />
 			) : hasMullet ? (
 				<>
-					<rect
-						x="26"
-						y={headY - 6}
-						width="8"
-						height="28"
-						rx="3"
-						fill={hair}
-					/>
-					<rect
-						x="35"
-						y={headY - headSize - 2}
-						width="30"
-						height="12"
-						rx="5"
-						fill={hair}
-					/>
+					<rect x="26" y={headY - 6} width="8" height="28" rx="3" fill={hair} />
+					<rect x="35" y={headY - headSize - 2} width="30" height="12" rx="5" fill={hair} />
 				</>
 			) : isFem ? (
 				<>
-					<ellipse
-						cx="50"
-						cy={headY - headSize + 8}
-						rx={headSize + 4}
-						ry="16"
-						fill={hair}
-					/>
-					<rect
-						x={50 - headSize - 3}
-						y={headY - 10}
-						width="8"
-						height="25"
-						rx="4"
-						fill={hair}
-					/>
-					<rect
-						x={50 + headSize - 5}
-						y={headY - 10}
-						width="8"
-						height="25"
-						rx="4"
-						fill={hair}
-					/>
+					<ellipse cx="50" cy={headY - headSize + 8} rx={headSize + 4} ry="16" fill={hair} />
+					<rect x={50 - headSize - 3} y={headY - 10} width="8" height="25" rx="4" fill={hair} />
+					<rect x={50 + headSize - 5} y={headY - 10} width="8" height="25" rx="4" fill={hair} />
 				</>
 			) : (
 				<rect
@@ -231,41 +150,13 @@ export default function Avatar({ player, className = "" }: AvatarProps) {
 			{/* Left eye */}
 			{patchLeft ? (
 				<>
-					<rect
-						x="33"
-						y={eyeY - 6}
-						width="16"
-						height="12"
-						rx="3"
-						fill="#111"
-					/>
-					<line
-						x1="33"
-						y1={eyeY - 2}
-						x2="24"
-						y2={eyeY - 8}
-						stroke="#444"
-						strokeWidth="1.5"
-					/>
+					<rect x="33" y={eyeY - 6} width="16" height="12" rx="3" fill="#111" />
+					<line x1="33" y1={eyeY - 2} x2="24" y2={eyeY - 8} stroke="#444" strokeWidth="1.5" />
 				</>
 			) : hasMissingEye ? (
 				<>
-					<line
-						x1="36"
-						y1={eyeY - 4}
-						x2="44"
-						y2={eyeY + 4}
-						stroke="#ff4444"
-						strokeWidth="2"
-					/>
-					<line
-						x1="44"
-						y1={eyeY - 4}
-						x2="36"
-						y2={eyeY + 4}
-						stroke="#ff4444"
-						strokeWidth="2"
-					/>
+					<line x1="36" y1={eyeY - 4} x2="44" y2={eyeY + 4} stroke="#ff4444" strokeWidth="2" />
+					<line x1="44" y1={eyeY - 4} x2="36" y2={eyeY + 4} stroke="#ff4444" strokeWidth="2" />
 				</>
 			) : (
 				<>
@@ -278,22 +169,8 @@ export default function Avatar({ player, className = "" }: AvatarProps) {
 			{/* Right eye */}
 			{patchRight ? (
 				<>
-					<rect
-						x="51"
-						y={eyeY - 6}
-						width="16"
-						height="12"
-						rx="3"
-						fill="#111"
-					/>
-					<line
-						x1="67"
-						y1={eyeY - 2}
-						x2="76"
-						y2={eyeY - 8}
-						stroke="#444"
-						strokeWidth="1.5"
-					/>
+					<rect x="51" y={eyeY - 6} width="16" height="12" rx="3" fill="#111" />
+					<line x1="67" y1={eyeY - 2} x2="76" y2={eyeY - 8} stroke="#444" strokeWidth="1.5" />
 				</>
 			) : (
 				<>
@@ -326,40 +203,20 @@ export default function Avatar({ player, className = "" }: AvatarProps) {
 						stroke="#ff6600"
 						strokeWidth="1"
 					/>
-					<line
-						x1="50"
-						y1={eyeY - 2}
-						x2="52"
-						y2={eyeY - 2}
-						stroke="#ff6600"
-						strokeWidth="1"
-					/>
+					<line x1="50" y1={eyeY - 2} x2="52" y2={eyeY - 2} stroke="#ff6600" strokeWidth="1" />
 				</>
 			)}
 
 			{/* Third eye */}
 			{hasThirdEye && (
 				<>
-					<ellipse
-						cx="50"
-						cy={eyeY - 12}
-						rx="5"
-						ry="4"
-						fill="#ff00cc"
-						opacity="0.9"
-					/>
+					<ellipse cx="50" cy={eyeY - 12} rx="5" ry="4" fill="#ff00cc" opacity="0.9" />
 					<circle cx="50" cy={eyeY - 12} r="2" fill="#1a1a1a" />
 				</>
 			)}
 
 			{/* Nose */}
-			<ellipse
-				cx="50"
-				cy={headY + 5}
-				rx="3"
-				ry="2"
-				fill="rgba(0,0,0,.15)"
-			/>
+			<ellipse cx="50" cy={headY + 5} rx="3" ry="2" fill="rgba(0,0,0,.15)" />
 
 			{/* Mouth */}
 			<path

@@ -1,5 +1,5 @@
+import { useCallback, useEffect } from "react";
 import { create } from "zustand";
-import { useEffect, useCallback } from "react";
 
 interface ToastItem {
 	id: number;
@@ -57,10 +57,7 @@ function ToastItem({ item }: { item: ToastItem }) {
 export default function ToastContainer() {
 	const toasts = useToastStore((s) => s.toasts);
 
-	const renderToast = useCallback(
-		(t: ToastItem) => <ToastItem key={t.id} item={t} />,
-		[],
-	);
+	const renderToast = useCallback((t: ToastItem) => <ToastItem key={t.id} item={t} />, []);
 
 	if (toasts.length === 0) return null;
 

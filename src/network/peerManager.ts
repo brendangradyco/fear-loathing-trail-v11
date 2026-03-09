@@ -1,10 +1,10 @@
-import { Peer } from "peerjs";
 import type { DataConnection, MediaConnection } from "peerjs";
-import type { GameState, MessageType, PlayerData } from "../types";
+import { Peer } from "peerjs";
 import { CFG } from "../data/constants";
-import { useNetworkStore } from "../stores/networkStore";
 import { useGameStore } from "../stores/gameStore";
+import { useNetworkStore } from "../stores/networkStore";
 import { usePlayerStore } from "../stores/playerStore";
+import type { GameState, MessageType, PlayerData } from "../types";
 import { parseMessage } from "./messageProtocol";
 
 const CONNECT_TIMEOUT = 12_000;
@@ -24,7 +24,7 @@ class PeerManager {
 
 	/** Whether the peer has been initialized and is ready for connections */
 	get ready(): boolean {
-		return this.peer !== null && this.peer.open;
+		return this.peer?.open ?? false;
 	}
 
 	// -----------------------------------------------------------
@@ -187,9 +187,7 @@ class PeerManager {
 					conn.send(welcome);
 
 					// Tell everyone about the new player
-					const meta = conn.metadata as
-						| { pid?: string; player?: PlayerData }
-						| undefined;
+					const meta = conn.metadata as { pid?: string; player?: PlayerData } | undefined;
 					if (meta?.pid && meta?.player) {
 						const joined: MessageType = {
 							type: "PLAYER_JOINED",
@@ -349,12 +347,7 @@ class PeerManager {
 			case "MEET": {
 				// Connect directly to this peer for mesh networking
 				const meetPeerId = msg.peerId;
-				if (
-					meetPeerId &&
-					meetPeerId !== player.id &&
-					!this.conns[meetPeerId] &&
-					this.peer
-				) {
+				if (meetPeerId && meetPeerId !== player.id && !this.conns[meetPeerId] && this.peer) {
 					const conn = this.peer.connect(meetPeerId, {
 						reliable: true,
 						metadata: { pid: player.id, player: player.data },

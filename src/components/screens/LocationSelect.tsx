@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Region } from "../../types";
 import { getRegion } from "../../utils/geo";
 
@@ -34,10 +34,7 @@ export default function LocationSelect({ onComplete }: LocationSelectProps) {
 			const val = e.target.value;
 			if (!val) return;
 			// "default2" is "Surprise Me" — maps to Region.DEFAULT
-			const region =
-				val === "default2"
-					? Region.DEFAULT
-					: (val as Region);
+			const region = val === "default2" ? Region.DEFAULT : (val as Region);
 			onComplete(region);
 		},
 		[onComplete],
@@ -47,9 +44,7 @@ export default function LocationSelect({ onComplete }: LocationSelectProps) {
 		<div className="fixed inset-0 flex flex-col bg-bg">
 			{/* Header */}
 			<div className="flex shrink-0 items-center gap-2.5 border-b border-border bg-surface px-3.5 py-2.5">
-				<span className="flex-1 text-[15px] font-bold text-orange">
-					{"📍"} YOUR REGION
-				</span>
+				<span className="flex-1 text-[15px] font-bold text-orange">{"📍"} YOUR REGION</span>
 			</div>
 
 			<div className="flex flex-1 flex-col gap-5 overflow-y-auto p-5">
@@ -59,15 +54,14 @@ export default function LocationSelect({ onComplete }: LocationSelectProps) {
 						Step 1 — Auto-detect (optional)
 					</div>
 					<button
+						type="button"
 						onClick={handleRequestLocation}
 						className="w-full rounded-lg bg-orange p-3.5 text-base font-bold text-black active:opacity-75"
 					>
 						{"📍"} Allow Location Access
 					</button>
 					{locResult && (
-						<div className="mt-2.5 min-h-4 text-[12px] leading-relaxed text-dim">
-							{locResult}
-						</div>
+						<div className="mt-2.5 min-h-4 text-[12px] leading-relaxed text-dim">{locResult}</div>
 					)}
 				</div>
 
@@ -85,18 +79,10 @@ export default function LocationSelect({ onComplete }: LocationSelectProps) {
 						className="w-full appearance-none rounded-lg border-2 border-orange bg-surface p-3.5 pr-9 font-mono text-base text-text outline-none"
 					>
 						<option value="">— Select your region —</option>
-						<option value="southwest">
-							{"🌵"} Southwest US (Vegas / LA / Phoenix)
-						</option>
-						<option value="northwest">
-							{"🌲"} Northwest US (Seattle / Portland / BC)
-						</option>
-						<option value="mountain">
-							{"🏔️"} Mountain West (Denver / SLC / Boise)
-						</option>
-						<option value="plains">
-							{"🌾"} Plains &amp; East (Chicago / Dallas / NY)
-						</option>
+						<option value="southwest">{"🌵"} Southwest US (Vegas / LA / Phoenix)</option>
+						<option value="northwest">{"🌲"} Northwest US (Seattle / Portland / BC)</option>
+						<option value="mountain">{"🏔️"} Mountain West (Denver / SLC / Boise)</option>
+						<option value="plains">{"🌾"} Plains &amp; East (Chicago / Dallas / NY)</option>
 						<option value="default">{"🌍"} Rest of World</option>
 						<option value="default2">{"🎲"} Surprise Me</option>
 					</select>

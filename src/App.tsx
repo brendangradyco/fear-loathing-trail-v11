@@ -1,21 +1,21 @@
-import { useState, useEffect, useCallback } from "react";
-import type { Age, Sex } from "./types";
-import { Region, Phase } from "./types";
-import { usePlayerStore } from "./stores/playerStore";
-import { useGameStore, loadGame } from "./stores/gameStore";
-import { useNetworkStore } from "./stores/networkStore";
+import { useCallback, useEffect, useState } from "react";
 import CharCreate from "./components/screens/CharCreate";
-import LocationSelect from "./components/screens/LocationSelect";
-import SkillReview from "./components/screens/SkillReview";
-import Lobby from "./components/screens/Lobby";
-import Shop from "./components/screens/Shop";
+import DeathScreen from "./components/screens/DeathScreen";
 import GameMap from "./components/screens/GameMap";
 import HuntGame from "./components/screens/HuntGame";
-import DeathScreen from "./components/screens/DeathScreen";
+import Lobby from "./components/screens/Lobby";
+import LocationSelect from "./components/screens/LocationSelect";
+import Shop from "./components/screens/Shop";
+import SkillReview from "./components/screens/SkillReview";
 import WinScreen from "./components/screens/WinScreen";
 import ToastContainer from "./components/shared/Toast";
 import ChatPanel from "./components/social/ChatPanel";
 import VideoOverlay from "./components/social/VideoOverlay";
+import { loadGame, useGameStore } from "./stores/gameStore";
+import { useNetworkStore } from "./stores/networkStore";
+import { usePlayerStore } from "./stores/playerStore";
+import type { Age, Sex } from "./types";
+import { Phase, type Region } from "./types";
 
 type Screen =
 	| "loading"
@@ -85,7 +85,7 @@ export default function App() {
 		setRoomId(code);
 		setHost(true);
 		setStatus("connected");
-	}, []); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [loadSavedPlayer, playerId, resumeGame, setHost, setRoomId, setStatus]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Watch game phase changes for death/win routing
 	useEffect(() => {
@@ -95,30 +95,21 @@ export default function App() {
 		} else if (gameState.phase === Phase.WIN && screen !== "win") {
 			setScreen("win");
 		}
-	}, [gameState?.phase]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [gameState?.phase, gameState, screen]); // eslint-disable-line react-hooks/exhaustive-deps
 
 	// Character creation complete
-	const handleCharComplete = useCallback(
-		(name: string, sex: Sex, age: Age, quirks: string[]) => {
-			// Store pending char data, go to location select
-			window.__pendingChar = { name, sex, age, quirks };
-			setScreen("location");
-		},
-		[],
-	);
+	const handleCharComplete = useCallback((name: string, sex: Sex, age: Age, quirks: string[]) => {
+		// Store pending char data, go to location select
+		window.__pendingChar = { name, sex, age, quirks };
+		setScreen("location");
+	}, []);
 
 	// Location selected
 	const handleLocationComplete = useCallback(
 		(region: Region) => {
 			const pending = window.__pendingChar;
 			if (pending) {
-				createCharacter(
-					pending.name,
-					pending.sex,
-					pending.age,
-					pending.quirks,
-					region,
-				);
+				createCharacter(pending.name, pending.sex, pending.age, pending.quirks, region);
 				delete window.__pendingChar;
 			}
 			setScreen("skills");
@@ -170,10 +161,7 @@ export default function App() {
 
 	// Determine whether to show overlays
 	const showOverlays =
-		screen === "map" ||
-		screen === "shop" ||
-		screen === "hunt" ||
-		screen === "lobby";
+		screen === "map" || screen === "shop" || screen === "hunt" || screen === "lobby";
 
 	return (
 		<>
@@ -181,40 +169,26 @@ export default function App() {
 			{screen === "loading" && (
 				<div className="fixed inset-0 flex flex-col items-center justify-center gap-4 bg-bg">
 					<div className="h-10 w-10 animate-spin rounded-full border-3 border-border border-t-orange" />
-					<h2 className="font-bold text-orange">
-						We can&apos;t stop here...
-					</h2>
+					<h2 className="font-bold text-orange">We can&apos;t stop here...</h2>
 					<p className="text-[12px] text-dim">this is bat country</p>
 				</div>
 			)}
 
-			{screen === "char" && (
-				<CharCreate onComplete={handleCharComplete} />
-			)}
+			{screen === "char" && <CharCreate onComplete={handleCharComplete} />}
 
-			{screen === "location" && (
-				<LocationSelect onComplete={handleLocationComplete} />
-			)}
+			{screen === "location" && <LocationSelect onComplete={handleLocationComplete} />}
 
-			{screen === "skills" && (
-				<SkillReview onComplete={handleSkillsComplete} />
-			)}
+			{screen === "skills" && <SkillReview onComplete={handleSkillsComplete} />}
 
 			{screen === "lobby" && <Lobby onStartGame={handleStartGame} />}
 
-			{screen === "shop" && (
-				<Shop onLeave={handleShopLeave} isFirstVisit={isFirstShopVisit} />
-			)}
+			{screen === "shop" && <Shop onLeave={handleShopLeave} isFirstVisit={isFirstShopVisit} />}
 
-			{screen === "map" && (
-				<GameMap onShop={handleShopOpen} onHunt={handleHuntStart} />
-			)}
+			{screen === "map" && <GameMap onShop={handleShopOpen} onHunt={handleHuntStart} />}
 
 			{screen === "hunt" && <HuntGame onEnd={handleHuntEnd} />}
 
-			{screen === "dead" && (
-				<DeathScreen reason={deathReason} onRestart={handleRestart} />
-			)}
+			{screen === "dead" && <DeathScreen reason={deathReason} onRestart={handleRestart} />}
 
 			{screen === "win" && <WinScreen onRestart={handleRestart} />}
 

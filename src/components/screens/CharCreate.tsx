@@ -1,15 +1,10 @@
-import { useState, useCallback } from "react";
-import type { Age, Sex } from "../../types";
+import { useCallback, useState } from "react";
 import { QUIRKS } from "../../data/quirks";
+import type { Age, Sex } from "../../types";
 import Avatar from "../shared/Avatar";
 
 interface CharCreateProps {
-	onComplete: (
-		name: string,
-		sex: Sex,
-		age: Age,
-		quirks: string[],
-	) => void;
+	onComplete: (name: string, sex: Sex, age: Age, quirks: string[]) => void;
 }
 
 export default function CharCreate({ onComplete }: CharCreateProps) {
@@ -19,9 +14,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 	const [selectedQuirks, setSelectedQuirks] = useState<string[]>([]);
 
 	const toggleQuirk = useCallback((id: string) => {
-		setSelectedQuirks((prev) =>
-			prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id],
-		);
+		setSelectedQuirks((prev) => (prev.includes(id) ? prev.filter((q) => q !== id) : [...prev, id]));
 	}, []);
 
 	const handleSubmit = useCallback(() => {
@@ -41,9 +34,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 			<div className="flex flex-1 flex-col gap-3.5 overflow-y-auto p-4">
 				{/* Title */}
 				<div className="py-4 text-center">
-					<h1 className="text-[22px] font-bold text-orange">
-						WHO ARE YOU, MAN?
-					</h1>
+					<h1 className="text-[22px] font-bold text-orange">WHO ARE YOU, MAN?</h1>
 					<p className="mt-1 text-[12px] text-dim">
 						Craft your identity before the ether wears off.
 					</p>
@@ -51,9 +42,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 
 				{/* Name */}
 				<div>
-					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">
-						Name
-					</div>
+					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">Name</div>
 					<input
 						type="text"
 						placeholder="Raoul Duke..."
@@ -66,9 +55,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 
 				{/* Sex */}
 				<div>
-					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">
-						Sex
-					</div>
+					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">Sex</div>
 					<div className="grid grid-cols-3 gap-2">
 						{(
 							[
@@ -78,12 +65,11 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 							] as const
 						).map((opt) => (
 							<button
+								type="button"
 								key={opt.val}
 								onClick={() => setSex(opt.val)}
 								className={`rounded-lg border-2 bg-surface2 py-3 font-mono text-[13px] transition-all ${
-									sex === opt.val
-										? "border-orange text-orange"
-										: "border-border text-dim"
+									sex === opt.val ? "border-orange text-orange" : "border-border text-dim"
 								}`}
 							>
 								{opt.label}
@@ -94,9 +80,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 
 				{/* Age */}
 				<div>
-					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">
-						Age
-					</div>
+					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">Age</div>
 					<div className="grid grid-cols-2 gap-2">
 						{(
 							[
@@ -107,12 +91,11 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 							] as const
 						).map((opt) => (
 							<button
+								type="button"
 								key={opt.val}
 								onClick={() => setAge(opt.val)}
 								className={`rounded-lg border-2 bg-surface2 py-2.5 font-mono text-[12px] text-center transition-all ${
-									age === opt.val
-										? "border-yellow text-yellow"
-										: "border-border text-dim"
+									age === opt.val ? "border-yellow text-yellow" : "border-border text-dim"
 								}`}
 							>
 								{opt.label}
@@ -123,9 +106,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 
 				{/* Avatar preview */}
 				<div>
-					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">
-						Avatar Preview
-					</div>
+					<div className="mb-1.5 text-[11px] uppercase tracking-wider text-dim">Avatar Preview</div>
 					<div className="flex justify-center py-2">
 						<Avatar
 							player={{ name, sex, age, quirks: selectedQuirks }}
@@ -142,6 +123,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 					<div className="grid grid-cols-3 gap-1.5">
 						{QUIRKS.map((q) => (
 							<button
+								type="button"
 								key={q.id}
 								onClick={() => toggleQuirk(q.id)}
 								className={`flex flex-col items-center gap-0.5 rounded-lg border-2 bg-surface2 px-1 py-2 font-mono transition-all ${
@@ -161,6 +143,7 @@ export default function CharCreate({ onComplete }: CharCreateProps) {
 
 				{/* Submit button */}
 				<button
+					type="button"
 					onClick={handleSubmit}
 					className="w-full rounded-lg bg-orange p-3.5 text-base font-bold tracking-wide text-black active:opacity-75"
 				>

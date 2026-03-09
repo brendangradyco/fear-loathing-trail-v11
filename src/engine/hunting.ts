@@ -29,11 +29,7 @@ export function spawnTargets(width: number, height: number): HuntTarget[] {
 	return targets;
 }
 
-export function updateTargets(
-	targets: HuntTarget[],
-	width: number,
-	height: number,
-): HuntTarget[] {
+export function updateTargets(targets: HuntTarget[], width: number, height: number): HuntTarget[] {
 	return targets.map((t) => {
 		if (!t.alive) return t;
 

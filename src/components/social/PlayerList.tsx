@@ -14,10 +14,7 @@ export default function PlayerList() {
 					key={id}
 					className="flex items-center gap-2.5 rounded-xl border border-border bg-surface2 px-3 py-2.5"
 				>
-					<Avatar
-						player={info.player}
-						className="h-[66px] w-[44px] shrink-0"
-					/>
+					<Avatar player={info.player} className="h-[66px] w-[44px] shrink-0" />
 					<div className="min-w-0 flex-1">
 						<div className="overflow-hidden text-ellipsis whitespace-nowrap font-bold text-orange">
 							{info.name}

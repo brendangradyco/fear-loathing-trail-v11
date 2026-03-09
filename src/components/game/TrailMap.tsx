@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { TRAIL_STOPS } from "../../data/trailStops";
 
 interface TrailMapProps {
@@ -47,8 +47,7 @@ export default function TrailMap({ currentIdx }: TrailMapProps) {
 
 		// Stops
 		const stops = TRAIL_STOPS;
-		const sx = (i: number) =>
-			Math.round(20 + (i * (W - 40)) / (stops.length - 1));
+		const sx = (i: number) => Math.round(20 + (i * (W - 40)) / (stops.length - 1));
 
 		for (let i = 0; i < stops.length; i++) {
 			const x = sx(i);
@@ -56,8 +55,7 @@ export default function TrailMap({ currentIdx }: TrailMapProps) {
 
 			ctx.beginPath();
 			ctx.arc(x, y, i === currentIdx ? 8 : 5, 0, Math.PI * 2);
-			ctx.fillStyle =
-				i < currentIdx ? "#00ff88" : i === currentIdx ? "#ff6600" : "#333";
+			ctx.fillStyle = i < currentIdx ? "#00ff88" : i === currentIdx ? "#ff6600" : "#333";
 			ctx.fill();
 
 			// Labels for current, first, and last
@@ -80,11 +78,5 @@ export default function TrailMap({ currentIdx }: TrailMapProps) {
 		}
 	}, [currentIdx]);
 
-	return (
-		<canvas
-			ref={canvasRef}
-			height={140}
-			className="block w-full shrink-0"
-		/>
-	);
+	return <canvas ref={canvasRef} height={140} className="block w-full shrink-0" />;
 }

@@ -1,8 +1,8 @@
 import { create } from "zustand";
-import type { Age, PlayerData, Region, Sex, SkillSet } from "../types";
-import { getPlayerId, savePlayer, loadPlayer } from "../utils/storage";
-import { generateSkills } from "../data/skills";
 import { CFG } from "../data/constants";
+import { generateSkills } from "../data/skills";
+import type { Age, PlayerData, Region, Sex, SkillSet } from "../types";
+import { getPlayerId, loadPlayer, savePlayer } from "../utils/storage";
 
 interface PlayerStore {
 	id: string;
@@ -10,13 +10,7 @@ interface PlayerStore {
 	rerollsLeft: number;
 
 	setPlayerData: (data: PlayerData) => void;
-	createCharacter: (
-		name: string,
-		sex: Sex,
-		age: Age,
-		quirks: string[],
-		region: Region,
-	) => void;
+	createCharacter: (name: string, sex: Sex, age: Age, quirks: string[], region: Region) => void;
 	rerollSkills: () => SkillSet | null;
 	loadSavedPlayer: () => PlayerData | null;
 	reset: () => void;

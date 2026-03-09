@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNetworkStore } from "../../stores/networkStore";
 import { usePlayerStore } from "../../stores/playerStore";
 
@@ -23,7 +23,7 @@ export default function ChatPanel() {
 		if (msgsRef.current) {
 			msgsRef.current.scrollTop = msgsRef.current.scrollHeight;
 		}
-	}, [chatMessages.length]);
+	}, []);
 
 	const handleSend = useCallback(() => {
 		const text = input.trim();
@@ -85,9 +85,7 @@ export default function ChatPanel() {
 									<>
 										<span
 											className={`font-bold ${
-												msg.sender === playerId
-													? "text-green"
-													: "text-orange"
+												msg.sender === playerId ? "text-green" : "text-orange"
 											}`}
 										>
 											{msg.senderName}:{" "}
@@ -102,21 +100,19 @@ export default function ChatPanel() {
 					{/* Input row */}
 					<div className="flex shrink-0 gap-1.5 border-t border-border bg-surface px-2.5 py-1.5 pb-[max(6px,env(safe-area-inset-bottom))]">
 						<button
+							type="button"
 							onClick={toggleCam}
 							className={`shrink-0 rounded-full border px-3 py-2.5 text-[15px] ${
-								camOn
-									? "border-green text-green"
-									: "border-border text-text"
+								camOn ? "border-green text-green" : "border-border text-text"
 							} bg-surface2`}
 						>
 							{"📹"}
 						</button>
 						<button
+							type="button"
 							onClick={toggleMic}
 							className={`shrink-0 rounded-full border px-3 py-2.5 text-[15px] ${
-								micMuted
-									? "border-red text-red"
-									: "border-border text-text"
+								micMuted ? "border-red text-red" : "border-border text-text"
 							} bg-surface2`}
 						>
 							{micMuted ? "🔇" : "🔊"}
@@ -130,6 +126,7 @@ export default function ChatPanel() {
 							className="flex-1 rounded-full border border-border bg-surface2 px-3 py-2.5 font-mono text-base text-text outline-none focus:border-orange"
 						/>
 						<button
+							type="button"
 							onClick={handleSend}
 							className="shrink-0 rounded-full bg-orange px-3 py-2.5 text-[15px] font-bold text-black"
 						>

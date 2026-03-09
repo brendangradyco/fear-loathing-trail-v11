@@ -1,10 +1,10 @@
 import { useCallback } from "react";
-import { useGameStore } from "../../stores/gameStore";
 import { TRAIL_STOPS } from "../../data/trailStops";
-import StatsBar from "../game/StatsBar";
-import TrailMap from "../game/TrailMap";
+import { useGameStore } from "../../stores/gameStore";
 import EventModal from "../game/EventModal";
 import GameLog from "../game/GameLog";
+import StatsBar from "../game/StatsBar";
+import TrailMap from "../game/TrailMap";
 import { toast } from "../shared/Toast";
 
 interface GameMapProps {
@@ -84,6 +84,7 @@ export default function GameMap({ onShop, onHunt }: GameMapProps) {
 						<div className="mb-2.5 grid grid-cols-2 gap-2">
 							{canTravel ? (
 								<button
+									type="button"
 									onClick={handleTravel}
 									className="rounded-lg bg-orange p-3 text-sm font-bold text-black active:opacity-75"
 								>
@@ -91,6 +92,7 @@ export default function GameMap({ onShop, onHunt }: GameMapProps) {
 								</button>
 							) : (
 								<button
+									type="button"
 									onClick={handleFinish}
 									className="rounded-lg bg-green p-3 text-sm font-bold text-black active:opacity-75"
 								>
@@ -98,18 +100,21 @@ export default function GameMap({ onShop, onHunt }: GameMapProps) {
 								</button>
 							)}
 							<button
+								type="button"
 								onClick={handleRest}
 								className="rounded-md border border-orange bg-transparent p-2.5 text-sm text-orange active:opacity-75"
 							>
 								{"😴"} Rest (+sanity)
 							</button>
 							<button
+								type="button"
 								onClick={onShop}
 								className="rounded-md border border-orange bg-transparent p-2.5 text-sm text-orange active:opacity-75"
 							>
 								{"🛒"} Shop
 							</button>
 							<button
+								type="button"
 								onClick={handleHunt}
 								className="rounded-md border border-orange bg-transparent p-2.5 text-sm text-orange active:opacity-75"
 							>

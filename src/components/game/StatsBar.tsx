@@ -13,12 +13,7 @@ export default function StatsBar() {
 		{
 			icon: "🧠",
 			value: `${Math.round(state.sanity)}%`,
-			color:
-				state.sanity < 25
-					? "text-red"
-					: state.sanity < 50
-						? "text-yellow"
-						: "text-green",
+			color: state.sanity < 25 ? "text-red" : state.sanity < 50 ? "text-yellow" : "text-green",
 		},
 		{
 			icon: "💵",

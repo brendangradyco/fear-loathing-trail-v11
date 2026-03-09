@@ -15,11 +15,7 @@ export default function GameLog({ entries }: GameLogProps) {
 				<div
 					key={`${entry.txt}-${i}`}
 					className={`border-b border-border py-0.5 text-[12px] ${
-						entry.bad
-							? "text-red"
-							: entry.good
-								? "text-green"
-								: "text-dim"
+						entry.bad ? "text-red" : entry.good ? "text-green" : "text-dim"
 					}`}
 				>
 					{entry.txt}
